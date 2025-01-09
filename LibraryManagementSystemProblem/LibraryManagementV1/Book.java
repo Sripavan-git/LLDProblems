@@ -5,21 +5,45 @@ public class Book {
     private int id;
     private String author;
     private String title;
-    private boolean isAvaibleToBorrow;
+    private int copies;
 
-    public Book(int id, String title, String author){
+    public Book(int id, String author, String title, int copies) {
         this.id = id;
-        this.title = title;
         this.author = author;
-        this.isAvaibleToBorrow = true;
+        this.title = title;
+        this.copies = copies;
     }
 
-    public boolean getIsAvaibleToBorrow(){
-        return isAvaibleToBorrow;
+    public int getId() {
+        return id;
     }
 
-    public void setIsAvaibleToBorrow(boolean isAvaibleToBorrow){
-        this.isAvaibleToBorrow = isAvaibleToBorrow;
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public int getCopies() {
+        return copies;
+    }
+
+    public void setCopies(int copies) {
+        this.copies = copies;
     }
 
     @Override
@@ -28,7 +52,7 @@ public class Book {
                 "id=" + id +
                 ", author='" + author + '\'' +
                 ", title='" + title + '\'' +
-                ", isAvaibleToBorrow=" + isAvaibleToBorrow +
+                ", copies=" + copies +
                 '}';
     }
 }

@@ -5,46 +5,74 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Library {
-    private List<Book> bookList;
-    private List<User> userList;
-    private List<Transaction> transactionList;
+    private List<Rack> racks;
 
     public Library(){
-        this.bookList = new ArrayList<>();
-        this.userList = new ArrayList<>();
-        this.transactionList = new ArrayList<>();
+        this.racks = new ArrayList<>();
     }
-
+    public void addRack(Rack rack){
+        racks.add(rack);
+    }
     public void addBook(Book book){
-        bookList.add(book);
-    }
-
-    public void addUser(User user){
-        userList.add(user);
-    }
-
-    public String borrowBook(User user, Book book){
-        if(book.getIsAvaibleToBorrow()){
-            book.setIsAvaibleToBorrow(false);
-            Transaction transaction = new Transaction(user, book, BookType.BORROW);
-            transactionList.add(transaction);
-            return "Book borrowed successfully";
+        for(Rack rack : racks){
+            if(!rack.getBook().isPresent()){
+                //System.out.println("Adding books.................");
+                rack.addBook(book);
+                System.out.println("Book \"" + book.getTitle() + "\" added to rack " + rack.getId());
+                return;
+            }
         }
-        else{
-            return "Book is not available to Borrow";
-        }
-    }
-
-    public String returnBook(User user, Book book){
-        book.setIsAvaibleToBorrow(true);
-        Transaction transaction = new Transaction(user, book, BookType.RETURN);
-        transactionList.add(transaction);
-        return "Book returned Successfully";
     }
 
     public void viewBooks(){
-        for(Book book : bookList){
-            System.out.println(book);
+        for(Rack rack : racks){
+            if(rack.getBook().isPresent()){
+                Book book = rack.getBook().get();
+                System.out.println("Book ID: " + book.getId() + ", Name: " + book.getTitle() + ", Author: " + book.getAuthor()
+                + ", Copies : " + book.getCopies());
+            }
+        }
+    }
+
+    public void viewBookById(int id){
+        for(Rack rack : racks){
+            if(rack.getBook().isPresent() && rack.getBook().get().getId() == id){
+                Book book = rack.getBook().get();
+                System.out.println("Book ID: " + book.getId() + ", Name: " + book.getTitle() + ", Author: " + book.getAuthor()
+                        + ", Copies : " + book.getCopies());
+                return;
+            }
+        }
+        System.out.println("Book with Id "+ id + " not Found");
+    }
+
+    public void viewBookByAuthor(String author){
+        Boolean isFound = false;
+        for(Rack rack : racks){
+            if(rack.getBook().isPresent() && rack.getBook().get().getAuthor().equals(author)){
+                Book book = rack.getBook().get();
+                System.out.println("Book ID: " + book.getId() + ", Name: " + book.getTitle() + ", Author: " + book.getAuthor()
+                        + ", Copies : " + book.getCopies());
+                isFound = true;
+            }
+        }
+        if(!isFound){
+            System.out.println("Book with Author "+ author + " not Found");
+        }
+    }
+
+    public void viewBookByTitle(String title){
+        Boolean isFound = false;
+        for(Rack rack : racks){
+            if(rack.getBook().isPresent() && rack.getBook().get().getTitle().equals(title)){
+                Book book = rack.getBook().get();
+                System.out.println("Book ID: " + book.getId() + ", Name: " + book.getTitle() + ", Author: " + book.getAuthor()
+                        + ", Copies : " + book.getCopies());
+                isFound = true;
+            }
+        }
+        if(!isFound){
+            System.out.println("Book with Title " + title + " not found");
         }
     }
 }
